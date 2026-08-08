@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY Dashboard</title>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body{
+    background:#fff9f6;
+    color:#514143;
+}
+header{
+    text-align:center;
+    background:linear-gradient(135deg,#ffd5e6,#fff0a8);
+    padding:30px 20px;
+    border-radius:0 0 30px 30px;
+}
+header h1{
+    font-size:30px;
+    font-weight:800;
+}
+header p{
+    margin-top:6px;
+    opacity:.65;
+}
+/* NAV */
+nav{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    overflow-x:auto;
+    padding:14px;
+    background:white;
+    position:sticky;
+    top:0;
+    z-index:20;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+nav button{
+    border:none;
+    background:#fff1f6;
+    color:#6b555a;
+    padding:10px 16px;
+    border-radius:22px;
+    white-space:nowrap;
+    font-weight:600;
+    cursor:pointer;
+}
+nav button.active{
+    background:#ffb7d3;
+    color:white;
+}
+/* MAIN */
+main{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+.page{
+    display:none;
+}
+.page.active{
+    display:block;
+}
+.section-title{
+    text-align:center;
+    margin-bottom:18px;
+}
+.section-title h2{
+    font-size:25px;
+}
+.section-title p{
+    margin-top:5px;
+    opacity:.6;
+}
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:20px;
+}
+.card{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
+.card span{
+    font-size:13px;
+    opacity:.6;
+}
+.card h3{
+    margin-top:8px;
+    font-size:23px;
+}
+/* PANELS */
+.panel{
+    background:white;
+    padding:20px;
+    border-radius:22px;
+    margin-bottom:20px;
+    box-shadow:0 5px 18px rgba(0,0,0,.05);
+}
+.panel h3{
+    text-align:center;
+    margin-bottom:15px;
+}
+/* CALENDAR */
+.calendar-header{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+.calendar-header h3{
+    margin:0;
+    font-size:21px;
+}
+.calendar-controls{
+    display:flex;
+    gap:6px;
+}
+.calendar-controls button{
+    border:none;
+    background:#fff0a8;
+    color:#665333;
+    border-radius:10px;
+    padding:8px 12px;
+    font-weight:700;
+    cursor:pointer;
+}
+.calendar-weekdays,
+.calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7,minmax(0,1fr));
+    width:100%;
+}
+.calendar-weekdays div{
+    min-width:0;
+    width:100%;
+    text-align:center;
+    font-size:12px;
+    font-weight:700;
+    opacity:.5;
+    padding:8px 0;
+    overflow:hidden;
+}
+.calendar-day{
+    min-width:0;
+    width:100%;
+    min-height:95px;
+    border:1px solid #f5e5e9;
+    padding:7px;
+    background:#fffdfd;
+    cursor:pointer;
+    overflow:hidden;
+}
+.calendar-day:hover{
+    background:#fff3f7;
+}
+.calendar-day.other-month{
+    opacity:.3;
+}
+.calendar-day.today{
+    background:#fff4bb;
+}
+.calendar-day>div{
+    min-width:0;
+    max-width:100%;
+}
+.today-circle{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:27px;
+    height:27px;
+    border-radius:50%;
+    background:#ffb7d3;
+    color:white;
+    font-weight:700;
+}
+/* EVENTS */
+.event{
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    font-size:9px;
+    margin-top:4px;
+    padding:3px 5px;
+    border-radius:6px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.event-note{
+    background:#fff0a8;
+}
+.event-saving{
+    background:#ffd4e5;
+}
+.event-expense{
+    background:#ffdcdc;
+}
+.event-deadline{
+    background:#dff3df;
+}
+.event-recurring{
+    background:#e7dcff;
+    color:#604b86;
+}
+.day-details{
+    margin-top:18px;
+    background:#fff8fb;
+    border-radius:15px;
+    padding:15px;
+}
+.day-details h4{
+    margin-bottom:10px;
+}
+.detail-item{
+    padding:9px 0;
+    border-bottom:1px solid #f1dfe5;
+    font-size:14px;
+}
+.detail-item:last-child{
+    border-bottom:none;
+}
+/* FORMS */
+.form{
+    display:grid;
+    gap:10px;
+    max-width:700px;
+    margin:auto;
+}
+input,
+textarea,
+select{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #efdce4;
+    border-radius:13px;
+    background:#fffafb;
+    outline:none;
+}
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+.primary-btn{
+    border:none;
+    background:#ffb7d3;
+    color:white;
+    padding:12px 18px;
+    border-radius:14px;
+    font-weight:700;
+    cursor:pointer;
+}
+.secondary-btn{
+    border:none;
+    background:#fff0a8;
+    color:#665333;
+    padding:10px 15px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+}
+/* LISTS */
+.list{
+    display:grid;
+    gap:10px;
+    margin-top:15px;
+}
+.item{
+    background:#fff8fb;
+    border:1px solid #f5dfe8;
+    padding:15px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.item-info{
+    flex:1;
+    min-width:0;
+}
+.item-title{
+    font-weight:700;
+    overflow-wrap:anywhere;
+}
+.item-date{
+    font-size:12px;
+    opacity:.6;
+    margin-top:4px;
+}
+.delete-btn{
+    border:none;
+    background:#ffdce2;
+    color:#994b59;
+    padding:8px 11px;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+}
+/* SAVINGS */
+.goal-card{
+    background:#fff8fb;
+    border:1px solid #f5dfe8;
+    padding:18px;
+    border-radius:18px;
+    margin-bottom:12px;
+}
+.goal-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+.goal-name{
+    font-weight:800;
+}
+.goal-amounts{
+    margin-top:8px;
+    font-size:13px;
+    opacity:.7;
+}
+.progress-container{
+    height:17px;
+    background:#f3e8eb;
+    border-radius:20px;
+    overflow:hidden;
+    margin:12px 0;
+}
+.progress{
+    height:100%;
+    background:linear-gradient(90deg,#ffb7d3,#ffe37c);
+    transition:.4s;
+}
+.remaining{
+    font-size:13px;
+    font-weight:600;
+}
+/* CHARTS */
+.chart{
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap:18px;
+    height:220px;
+    padding:15px 5px 30px;
+    border-bottom:1px solid #eadfe2;
+    overflow-x:auto;
+}
+.bar-wrapper{
+    height:100%;
+    min-width:55px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+}
+.bar-value{
+    font-size:10px;
+    margin-bottom:4px;
+}
+.bar{
+    width:35px;
+    min-height:3px;
+    border-radius:9px 9px 0 0;
+    background:#ffb7d3;
+}
+.expense-bar{
+    background:#f5aeb8;
+}
+.bar-label{
+    font-size:10px;
+    margin-top:6px;
+    text-align:center;
+    max-width:65px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+/* RECURRING */
+.recurring-card{
+    background:#faf6ff;
+    border:1px solid #e5daf5;
+    padding:16px;
+    border-radius:17px;
+    margin-top:12px;
+}
+.recurring-title{
+    font-weight:800;
+    font-size:16px;
+}
+.recurring-info{
+    font-size:13px;
+    opacity:.7;
+    margin-top:6px;
+    line-height:1.5;
+}
+.badge{
+    display:inline-block;
+    background:#e7dcff;
+    color:#604b86;
+    padding:4px 8px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:700;
+    margin-top:7px;
+}
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:25px;
+    opacity:.45;
+}
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:30px;
+    opacity:.45;
+    font-size:13px;
+}
+/* MOBILE */
+@media(max-width:700px){
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+    .calendar-day{
+        min-height:70px;
+        padding:5px;
+    }
+    .calendar-weekdays div{
+        font-size:10px;
+    }
+    .event{
+        font-size:8px;
+        padding:2px 4px;
+    }
+    .chart{
+        gap:7px;
+    }
+    .bar-wrapper{
+        min-width:42px;
+    }
+    .item{
+        align-items:flex-start;
+    }
+    .item .delete-btn{
+        flex-shrink:0;
+    }
+}
+</style>
+</head>
+<body>
+<header>
+    <h1>MY Dashboard 🌸</h1>
+    <p>Your little space to organize your life.</p>
+</header>
+<nav>
+    <button class="active"
+        onclick="showPage('dashboard',this)">
+        🏠 Home
+    </button>
+    <button onclick="showPage('notes',this)">
+        📝 Notes
+    </button>
+    <button onclick="showPage('savings',this)">
+        💰 Savings
+    </button>
+    <button onclick="showPage('expenses',this)">
+        💸 Expenses
+    </button>
+    <button onclick="showPage('deadlines',this)">
+        📅 Deadlines
+    </button>
+</nav>
+<main>
+<!-- ================= HOME ================= -->
+<section id="dashboard" class="page active">
+    <div class="section-title">
+        <h2>Good day! 💗</h2>
+        <p>Everything in one place.</p>
+    </div>
+    <div class="cards">
+        <div class="card">
+            <span>💰 Total Saved</span>
+            <h3 id="dashSavings">₱0.00</h3>
+        </div>
+        <div class="card">
+            <span>💸 Expenses</span>
+            <h3 id="dashExpenses">₱0.00</h3>
+        </div>
+        <div class="card">
+            <span>📝 Notes</span>
+            <h3 id="dashNotes">0</h3>
+        </div>
+        <div class="card">
+            <span>📅 Deadlines</span>
+            <h3 id="dashDeadlines">0</h3>
+        </div>
+    </div>
+    <!-- CALENDAR -->
+    <div class="panel">
+        <div class="calendar-header">
+            <h3 id="calendarTitle">
+                Month Year
+            </h3>
+            <div class="calendar-controls">
+                <button onclick="previousMonth()">
+                    ‹
+                </button>
+                <button onclick="goToday()">
+                    Today
+                </button>
+                <button onclick="nextMonth()">
+                    ›
+                </button>
+            </div>
+        </div>
+        <div class="calendar-weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        <div
+            id="calendarGrid"
+            class="calendar-grid">
+        </div>
+        <div id="dayDetails"></div>
+    </div>
+    <!-- SAVINGS CHART -->
+    <div class="panel">
+        <h3>💰 Savings Overview</h3>
+        <div
+            id="savingsChart"
+            class="chart">
+        </div>
+    </div>
+    <!-- EXPENSE CHART -->
+    <div class="panel">
+        <h3>💸 Expenses Overview</h3>
+        <div
+            id="expenseChart"
+            class="chart">
+        </div>
+    </div>
+</section>
+<!-- ================= NOTES ================= -->
+<section id="notes" class="page">
+    <div class="section-title">
+        <h2>📝 Important Notes</h2>
+        <p>
+            Every note appears on your calendar.
+        </p>
+    </div>
+    <div class="panel">
+        <div class="form">
+            <textarea
+                id="noteText"
+                placeholder="Write your note...">
+            </textarea>
+            <input
+                id="noteDate"
+                type="date">
+            <button
+                class="primary-btn"
+                onclick="addNote()">
+                + Add Note
+            </button>
+        </div>
+        <div
+            id="notesList"
+            class="list">
+        </div>
+    </div>
+</section>
+<!-- ================= SAVINGS ================= -->
+<section id="savings" class="page">
+    <div class="section-title">
+        <h2>💰 Savings Goals</h2>
+        <p>
+            Keep every goal and its savings history.
+        </p>
+    </div>
+    <div class="panel">
+        <h3>Add New Savings Goal</h3>
+        <div class="form">
+            <input
+                id="goalName"
+                type="text"
+                placeholder="Goal name">
+            <input
+                id="goalTarget"
+                type="number"
+                placeholder="Target amount">
+            <input
+                id="goalInitial"
+                type="number"
+                placeholder="Initial amount saved">
+            <input
+                id="goalDate"
+                type="date">
+            <button
+                class="primary-btn"
+                onclick="addGoal()">
+                + Add Savings Goal
+            </button>
+        </div>
+    </div>
+    <div class="panel">
+        <h3>Your Savings Goals</h3>
+        <div id="goalsList"></div>
+    </div>
+    <div class="panel">
+        <h3>📊 Savings Bar Chart</h3>
+        <div
+            id="savingsChartPage"
+            class="chart">
+        </div>
+    </div>
+</section>
+<!-- ================= EXPENSES ================= -->
+<section id="expenses" class="page">
+    <div class="section-title">
+        <h2>💸 Expenses</h2>
+        <p>
+            Track every expense.
+        </p>
+    </div>
+    <div class="panel">
+        <h3 id="expenseTotal">
+            ₱0.00
+        </h3>
+        <div class="form">
+            <input
+                id="expenseName"
+                type="text"
+                placeholder="Expense name">
+            <input
+                id="expenseAmount"
+                type="number"
+                placeholder="Amount">
+            <input
+                id="expenseDate"
+                type="date">
+            <button
+                class="primary-btn"
+                onclick="addExpense()">
+                + Add Expense
+            </button>
+        </div>
+        <div
+            id="expensesList"
+            class="list">
+        </div>
+    </div>
+    <div class="panel">
+        <h3>📊 Expense Bar Chart</h3>
+        <div
+            id="expenseChartPage"
+            class="chart">
+        </div>
+    </div>
+</section>
+<!-- ================= DEADLINES ================= -->
+<section id="deadlines" class="page">
+    <div class="section-title">
+        <h2>📅 Deadlines</h2>
+        <p>
+            Regular and recurring deadlines.
+        </p>
+    </div>
+    <!-- REGULAR DEADLINE -->
+    <div class="panel">
+        <h3>📌 Add One-Time Deadline</h3>
+        <div class="form">
+            <input
+                id="deadlineName"
+                type="text"
+                placeholder="Deadline / Event">
+            <input
+                id="deadlineDate"
+                type="date">
+            <button
+                class="primary-btn"
+                onclick="addDeadline()">
+                + Add Deadline
+            </button>
+        </div>
+        <div
+            id="deadlinesList"
+            class="list">
+        </div>
+    </div>
+    <!-- RECURRING DEADLINE -->
+    <div class="panel">
+        <h3>🔁 Add Recurring Deadline</h3>
+        <p style="
+            text-align:center;
+            font-size:13px;
+            opacity:.6;
+            margin-bottom:15px;
+        ">
+            Example: PayLater every 13th of the month.
+        </p>
+        <div class="form">
+            <input
+                id="recurringName"
+                type="text"
+                placeholder="e.g. PayLater">
+            <select id="recurringType">
+                <option value="monthly">
+                    Every Month
+                </option>
+                <option value="weekly">
+                    Every Week
+                </option>
+                <option value="yearly">
+                    Every Year
+                </option>
+            </select>
+            <div id="monthlyOptions">
+                <input
+                    id="recurringDay"
+                    type="number"
+                    min="1"
+                    max="31"
+                    placeholder="Day of month (e.g. 13)">
+            </div>
+            <div id="weeklyOptions"
+                style="display:none;">
+                <select id="recurringWeekday">
+                    <option value="0">
+                        Sunday
+                    </option>
+                    <option value="1">
+                        Monday
+                    </option>
+                    <option value="2">
+                        Tuesday
+                    </option>
+                    <option value="3">
+                        Wednesday
+                    </option>
+                    <option value="4">
+                        Thursday
+                    </option>
+                    <option value="5">
+                        Friday
+                    </option>
+                    <option value="6">
+                        Saturday
+                    </option>
+                </select>
+            </div>
+            <input
+                id="recurringStart"
+                type="date">
+            <input
+                id="recurringEnd"
+                type="date">
+            <button
+                class="primary-btn"
+                onclick="addRecurringDeadline()">
+                + Add Recurring Deadline
+            </button>
+        </div>
+    </div>
+    <!-- RECURRING LIST -->
+    <div class="panel">
+        <h3>🔁 Recurring Deadlines</h3>
+        <div
+            id="recurringList">
+        </div>
+    </div>
+</section>
+</main>
+<footer>
+    Made with 💗 for MY little dashboard
+</footer>
+<script>
+/* =====================================================
+   DATA
+===================================================== */
+let notes =
+JSON.parse(
+    localStorage.getItem("myNotesV3")
+) || [];
+let expenses =
+JSON.parse(
+    localStorage.getItem("myExpensesV3")
+) || [];
+let deadlines =
+JSON.parse(
+    localStorage.getItem("myDeadlinesV3")
+) || [];
+let recurringDeadlines =
+JSON.parse(
+    localStorage.getItem("myRecurringV3")
+) || [];
+let goals =
+JSON.parse(
+    localStorage.getItem("myGoalsV3")
+) || [];
+/* =====================================================
+   NAVIGATION
+===================================================== */
+function showPage(
+    pageId,
+    button
+){
+    document
+    .querySelectorAll(".page")
+    .forEach(page=>{
+        page.classList.remove("active");
+    });
+    document
+    .getElementById(pageId)
+    .classList.add("active");
+    document
+    .querySelectorAll("nav button")
+    .forEach(btn=>{
+        btn.classList.remove("active");
+    });
+    button.classList.add("active");
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+    renderAll();
+}
+/* =====================================================
+   CALENDAR
+===================================================== */
+let calendarDate =
+new Date();
+let selectedDate =
+getTodayString();
+function renderCalendar(){
+    const year =
+    calendarDate.getFullYear();
+    const month =
+    calendarDate.getMonth();
+    document.getElementById(
+        "calendarTitle"
+    ).innerText =
+    calendarDate.toLocaleDateString(
+        "en-US",
+        {
+            month:"long",
+            year:"numeric"
+        }
+    );
+    const grid =
+    document.getElementById(
+        "calendarGrid"
+    );
+    grid.innerHTML="";
+    const firstDay =
+    new Date(
+        year,
+        month,
+        1
+    ).getDay();
+    const days =
+    new Date(
+        year,
+        month+1,
+        0
+    ).getDate();
+    const previousDays =
+    new Date(
+        year,
+        month,
+        0
+    ).getDate();
+    /* PREVIOUS MONTH */
+    for(
+        let i=firstDay-1;
+        i>=0;
+        i--
+    ){
+        const cell =
+        document.createElement("div");
+        cell.className =
+        "calendar-day other-month";
+        cell.innerText =
+        previousDays-i;
+        grid.appendChild(cell);
+    }
+    /* CURRENT MONTH */
+    for(
+        let day=1;
+        day<=days;
+        day++
+    ){
+        const date =
+        makeDateString(
+            year,
+            month,
+            day
+        );
+        const cell =
+        document.createElement("div");
+        cell.className =
+        "calendar-day";
+        if(
+            date===
+            getTodayString()
+        ){
+            cell.classList.add(
+                "today"
+            );
+        }
+        const number =
+        document.createElement("div");
+        if(
+            date===
+            getTodayString()
+        ){
+            number.innerHTML =
+            `<span class="today-circle">
+                ${day}
+            </span>`;
+        }else{
+            number.innerText =
+            day;
+        }
+        cell.appendChild(number);
+        /* NOTES */
+        notes
+        .filter(
+            item =>
+            item.date===date
+        )
+        .forEach(item=>{
+            addCalendarEvent(
+                cell,
+                "📝 "+item.text,
+                "event-note"
+            );
+        });
+        /* SAVINGS */
+        goals.forEach(goal=>{
+            goal.transactions
+            .filter(
+                transaction =>
+                transaction.date===date
+            )
+            .forEach(transaction=>{
+                addCalendarEvent(
+                    cell,
+                    "💰 +"+
+                    formatMoney(
+                        transaction.amount
+                    ),
+                    "event-saving"
+                );
+            });
+        });
+        /* EXPENSES */
+        expenses
+        .filter(
+            item =>
+            item.date===date
+        )
+        .forEach(item=>{
+            addCalendarEvent(
+                cell,
+                "💸 "+item.name,
+                "event-expense"
+            );
+        });
+        /* NORMAL DEADLINES */
+        deadlines
+        .filter(
+            item =>
+            item.date===date
+        )
+        .forEach(item=>{
+            addCalendarEvent(
+                cell,
+                "📌 "+item.name,
+                "event-deadline"
+            );
+        });
+        /* RECURRING DEADLINES */
+        recurringDeadlines
+        .filter(
+            item =>
+            isRecurringDate(
+                item,
+                date
+            )
+        )
+        .forEach(item=>{
+            addCalendarEvent(
+                cell,
+                "🔁 "+item.name,
+                "event-recurring"
+            );
+        });
+        cell.onclick=()=>{
+            selectedDate =
+            date;
+            renderDayDetails();
+        };
+        grid.appendChild(cell);
+    }
+    /* NEXT MONTH */
+    const total =
+    firstDay+days;
+    const remaining =
+    total%7===0
+    ?0
+    :7-(total%7);
+    for(
+        let day=1;
+        day<=remaining;
+        day++
+    ){
+        const cell =
+        document.createElement("div");
+        cell.className =
+        "calendar-day other-month";
+        cell.innerText =
+        day;
+        grid.appendChild(cell);
+    }
+    renderDayDetails();
+}
+function addCalendarEvent(
+    cell,
+    text,
+    className
+){
+    const event =
+    document.createElement(
+        "div"
+    );
+    event.className =
+    "event "+className;
+    event.innerText =
+    text;
+    cell.appendChild(event);
+}
+/* =====================================================
+   RECURRING LOGIC
+===================================================== */
+function isRecurringDate(
+    item,
+    dateString
+){
+    if(
+        dateString <
+        item.start
+    ){
+        return false;
+    }
+    if(
+        item.end &&
+        dateString >
+        item.end
+    ){
+        return false;
+    }
+    const parts =
+    dateString.split("-");
+    const year =
+    Number(parts[0]);
+    const month =
+    Number(parts[1])-1;
+    const day =
+    Number(parts[2]);
+    const date =
+    new Date(
+        year,
+        month,
+        day
+    );
+    const start =
+    new Date(
+        item.start+"T00:00:00"
+    );
+    if(
+        item.type==="monthly"
+    ){
+        return day===
+        Number(
+            item.day
+        );
+    }
+    if(
+        item.type==="weekly"
+    ){
+        return date.getDay()===
+        Number(
+            item.weekday
+        );
+    }
+    if(
+        item.type==="yearly"
+    ){
+        return (
+            month===
+            start.getMonth()
+        )
+        &&
+        (
+            day===
+            start.getDate()
+        );
+    }
+    return false;
+}
+/* =====================================================
+   CALENDAR NAVIGATION
+===================================================== */
+function previousMonth(){
+    calendarDate.setMonth(
+        calendarDate.getMonth()-1
+    );
+    renderCalendar();
+}
+function nextMonth(){
+    calendarDate.setMonth(
+        calendarDate.getMonth()+1
+    );
+    renderCalendar();
+}
+function goToday(){
+    calendarDate =
+    new Date();
+    selectedDate =
+    getTodayString();
+    renderCalendar();
+}
+/* =====================================================
+   DAY DETAILS
+===================================================== */
+function renderDayDetails(){
+    const box =
+    document.getElementById(
+        "dayDetails"
+    );
+    const date =
+    selectedDate;
+    let html=`
+        <div class="day-details">
+        <h4>📅 ${formatDate(date)}</h4>
+    `;
+    let found=false;
+    /* NOTES */
+    notes
+    .filter(
+        item =>
+        item.date===date
+    )
+    .forEach(item=>{
+        found=true;
+        html+=`
+            <div class="detail-item">
+                📝 ${escapeHTML(item.text)}
+            </div>
+        `;
+    });
+    /* SAVINGS */
+    goals.forEach(goal=>{
+        goal.transactions
+        .filter(
+            transaction =>
+            transaction.date===date
+        )
+        .forEach(transaction=>{
+            found=true;
+            html+=`
+                <div class="detail-item">
+                    💰
+                    ${escapeHTML(goal.name)}
+                    +
+                    ${formatMoney(
+                        transaction.amount
+                    )}
+                </div>
+            `;
+        });
+    });
+    /* EXPENSES */
+    expenses
+    .filter(
+        item =>
+        item.date===date
+    )
+    .forEach(item=>{
+        found=true;
+        html+=`
+            <div class="detail-item">
+                💸
+                ${escapeHTML(item.name)}
+                -
+                ${formatMoney(item.amount)}
+            </div>
+        `;
+    });
+    /* NORMAL DEADLINES */
+    deadlines
+    .filter(
+        item =>
+        item.date===date
+    )
+    .forEach(item=>{
+        found=true;
+        html+=`
+            <div class="detail-item">
+                📌
+                ${escapeHTML(item.name)}
+            </div>
+        `;
+    });
+    /* RECURRING */
+    recurringDeadlines
+    .filter(
+        item =>
+        isRecurringDate(
+            item,
+            date
+        )
+    )
+    .forEach(item=>{
+        found=true;
+        html+=`
+            <div class="detail-item">
+                🔁
+                ${escapeHTML(item.name)}
+                <small>
+                    (Recurring)
+                </small>
+            </div>
+        `;
+    });
+    if(!found){
+        html+=`
+            <div class="empty">
+                No tracked activity on this date 🌸
+            </div>
+        `;
+    }
+    html+=`
+        </div>
+    `;
+    box.innerHTML =
+    html;
+}
+/* =====================================================
+   NOTES
+===================================================== */
+function addNote(){
+    const text =
+    document
+    .getElementById("noteText")
+    .value
+    .trim();
+    const date =
+    document
+    .getElementById("noteDate")
+    .value
+    ||
+    getTodayString();
+    if(!text){
+        alert(
+            "Please write a note."
+        );
+        return;
+    }
+    notes.push({
+        id:Date.now(),
+        text,
+        date
+    });
+    saveData();
+    document
+    .getElementById("noteText")
+    .value="";
+    renderAll();
+}
+function deleteNote(id){
+    notes =
+    notes.filter(
+        item =>
+        item.id!==id
+    );
+    saveData();
+    renderAll();
+}
+function renderNotes(){
+    const list =
+    document.getElementById(
+        "notesList"
+    );
+    if(!notes.length){
+        list.innerHTML=`
+            <div class="empty">
+                No notes yet 🌸
+            </div>
+        `;
+        return;
+    }
+    list.innerHTML =
+    notes
+    .slice()
+    .reverse()
+    .map(item=>`
+        <div class="item">
+            <div class="item-info">
+                <div class="item-title">
+                    📝
+                    ${escapeHTML(item.text)}
+                </div>
+                <div class="item-date">
+                    ${formatDate(item.date)}
+                </div>
+            </div>
+            <button
+                class="delete-btn"
+                onclick="deleteNote(${item.id})">
+                Delete
+            </button>
+        </div>
+    `)
+    .join("");
+}
+/* =====================================================
+   SAVINGS
+===================================================== */
+function addGoal(){
+    const name =
+    document
+    .getElementById("goalName")
+    .value
+    .trim();
+    const target =
+    Number(
+        document
+        .getElementById("goalTarget")
+        .value
+    );
+    const initial =
+    Number(
+        document
+        .getElementById("goalInitial")
+        .value
+    )||0;
+    const date =
+    document
+    .getElementById("goalDate")
+    .value
+    ||
+    getTodayString();
+    if(
+        !name ||
+        target<=0
+    ){
+        alert(
+            "Please enter a goal name and target amount."
+        );
+        return;
+    }
+    const goal={
+        id:Date.now(),
+        name,
+        target,
+        transactions:[]
+    };
+    if(initial>0){
+        goal.transactions.push({
+            id:Date.now()+1,
+            amount:initial,
+            date
+        });
+    }
+    goals.push(goal);
+    saveData();
+    document
+    .getElementById("goalName")
+    .value="";
+    document
+    .getElementById("goalTarget")
+    .value="";
+    document
+    .getElementById("goalInitial")
+    .value="";
+    document
+    .getElementById("goalDate")
+    .value="";
+    renderAll();
+}
+function addSavingsToGoal(id){
+    const amount =
+    Number(
+        prompt(
+            "How much did you save?"
+        )
+    );
+    if(
+        !amount ||
+        amount<=0
+    ) return;
+    const goal =
+    goals.find(
+        item =>
+        item.id===id
+    );
+    if(!goal) return;
+    const date =
+    prompt(
+        "Date (YYYY-MM-DD):",
+        getTodayString()
+    );
+    goal.transactions.push({
+        id:Date.now(),
+        amount,
+        date:
+        date||
+        getTodayString()
+    });
+    saveData();
+    renderAll();
+}
+function deleteGoal(id){
+    if(
+        !confirm(
+            "Delete this savings goal and its history?"
+        )
+    ) return;
+    goals =
+    goals.filter(
+        goal =>
+        goal.id!==id
+    );
+    saveData();
+    renderAll();
+}
+function getGoalSaved(goal){
+    return goal.transactions.reduce(
+        (
+            total,
+            transaction
+        ) =>
+        total+
+        Number(
+            transaction.amount
+        ),
+        0
+    );
+}
+function renderGoals(){
+    const list =
+    document.getElementById(
+        "goalsList"
+    );
+    if(!goals.length){
+        list.innerHTML=`
+            <div class="empty">
+                No savings goals yet 🌸
+            </div>
+        `;
+        return;
+    }
+    list.innerHTML =
+    goals.map(goal=>{
+        const saved =
+        getGoalSaved(goal);
+        const remaining =
+        Math.max(
+            goal.target-saved,
+            0
+        );
+        const percentage =
+        Math.min(
+            saved/
+            goal.target*
+            100,
+            100
+        );
+        const completed =
+        saved>=goal.target;
+        return `
+            <div class="goal-card">
+                <div class="goal-top">
+                    <div class="goal-name">
+                        💰
+                        ${escapeHTML(
+                            goal.name
+                        )}
+                    </div>
+                    <button
+                        class="delete-btn"
+                        onclick="
+                            deleteGoal(
+                                ${goal.id}
+                            )
+                        ">
+                        Delete
+                    </button>
+                </div>
+                <div class="goal-amounts">
+                    ${formatMoney(saved)}
+                    saved of
+                    ${formatMoney(goal.target)}
+                </div>
+                <div
+                    class="progress-container">
+                    <div
+                        class="progress"
+                        style="
+                            width:${percentage}%
+                        ">
+                    </div>
+                </div>
+                <div class="remaining">
+                    ${
+                        completed
+                        ?
+                        "🎉 Goal completed!"
+                        :
+                        `${formatMoney(
+                            remaining
+                        )} still needed`
+                    }
+                    ·
+                    ${Math.round(
+                        percentage
+                    )}%
+                </div>
+                <br>
+                <button
+                    class="secondary-btn"
+                    onclick="
+                        addSavingsToGoal(
+                            ${goal.id}
+                        )
+                    ">
+                    + Add Savings
+                </button>
+            </div>
+        `;
+    })
+    .join("");
+}
+/* =====================================================
+   EXPENSES
+===================================================== */
+function addExpense(){
+    const name =
+    document
+    .getElementById(
+        "expenseName"
+    )
+    .value
+    .trim();
+    const amount =
+    Number(
+        document
+        .getElementById(
+            "expenseAmount"
+        )
+        .value
+    );
+    const date =
+    document
+    .getElementById(
+        "expenseDate"
+    )
+    .value
+    ||
+    getTodayString();
+    if(
+        !name ||
+        amount<=0
+    ){
+        alert(
+            "Please enter the expense name and amount."
+        );
+        return;
+    }
+    expenses.push({
+        id:Date.now(),
+        name,
+        amount,
+        date
+    });
+    saveData();
+    document
+    .getElementById(
+        "expenseName"
+    )
+    .value="";
+    document
+    .getElementById(
+        "expenseAmount"
+    )
+    .value="";
+    document
+    .getElementById(
+        "expenseDate"
+    )
+    .value="";
+    renderAll();
+}
+function deleteExpense(id){
+    expenses =
+    expenses.filter(
+        item =>
+        item.id!==id
+    );
+    saveData();
+    renderAll();
+}
+function renderExpenses(){
+    const list =
+    document.getElementById(
+        "expensesList"
+    );
+    const total =
+    expenses.reduce(
+        (
+            sum,
+            item
+        ) =>
+        sum+
+        Number(
+            item.amount
+        ),
+        0
+    );
+    document.getElementById(
+        "expenseTotal"
+    ).innerText =
+    formatMoney(total);
+    if(!expenses.length){
+        list.innerHTML=`
+            <div class="empty">
+                No expenses yet 🌸
+            </div>
+        `;
+        return;
+    }
+    list.innerHTML =
+    expenses
+    .slice()
+    .reverse()
+    .map(item=>`
+        <div class="item">
+            <div class="item-info">
+                <div class="item-title">
+                    💸
+                    ${escapeHTML(
+                        item.name
+                    )}
+                </div>
+                <div class="item-date">
+                    ${formatDate(
+                        item.date
+                    )}
+                </div>
+            </div>
+            <strong>
+                ${formatMoney(
+                    item.amount
+                )}
+            </strong>
+            <button
+                class="delete-btn"
+                onclick="
+                    deleteExpense(
+                        ${item.id}
+                    )
+                ">
+                Delete
+            </button>
+        </div>
+    `)
+    .join("");
+}
+/* =====================================================
+   NORMAL DEADLINES
+===================================================== */
+function addDeadline(){
+    const name =
+    document
+    .getElementById(
+        "deadlineName"
+    )
+    .value
+    .trim();
+    const date =
+    document
+    .getElementById(
+        "deadlineDate"
+    )
+    .value;
+    if(
+        !name ||
+        !date
+    ){
+        alert(
+            "Please enter the deadline and date."
+        );
+        return;
+    }
+    deadlines.push({
+        id:Date.now(),
+        name,
+        date
+    });
+    saveData();
+    document
+    .getElementById(
+        "deadlineName"
+    )
+    .value="";
+    document
+    .getElementById(
+        "deadlineDate"
+    )
+    .value="";
+    renderAll();
+}
+function deleteDeadline(id){
+    deadlines =
+    deadlines.filter(
+        item =>
+        item.id!==id
+    );
+    saveData();
+    renderAll();
+}
+function renderDeadlines(){
+    const list =
+    document.getElementById(
+        "deadlinesList"
+    );
+    if(!deadlines.length){
+        list.innerHTML=`
+            <div class="empty">
+                No one-time deadlines yet 🌸
+            </div>
+        `;
+        return;
+    }
+    const sorted =
+    deadlines
+    .slice()
+    .sort(
+        (a,b)=>
+        new Date(a.date)-
+        new Date(b.date)
+    );
+    list.innerHTML =
+    sorted.map(item=>`
+        <div class="item">
+            <div class="item-info">
+                <div class="item-title">
+                    📌
+                    ${escapeHTML(
+                        item.name
+                    )}
+                </div>
+                <div class="item-date">
+                    ${formatDate(
+                        item.date
+                    )}
+                </div>
+            </div>
+            <button
+                class="delete-btn"
+                onclick="
+                    deleteDeadline(
+                        ${item.id}
+                    )
+                ">
+                Delete
+            </button>
+        </div>
+    `)
+    .join("");
+}
+/* =====================================================
+   RECURRING DEADLINES
+===================================================== */
+document
+.getElementById(
+    "recurringType"
+)
+.addEventListener(
+    "change",
+    updateRecurringForm
+);
+function updateRecurringForm(){
+    const type =
+    document
+    .getElementById(
+        "recurringType"
+    )
+    .value;
+    const monthly =
+    document.getElementById(
+        "monthlyOptions"
+    );
+    const weekly =
+    document.getElementById(
+        "weeklyOptions"
+    );
+    monthly.style.display =
+    type==="monthly"
+    ? "block"
+    : "none";
+    weekly.style.display =
+    type==="weekly"
+    ? "block"
+    : "none";
+}
+function addRecurringDeadline(){
+    const name =
+    document
+    .getElementById(
+        "recurringName"
+    )
+    .value
+    .trim();
+    const type =
+    document
+    .getElementById(
+        "recurringType"
+    )
+    .value;
+    const start =
+    document
+    .getElementById(
+        "recurringStart"
+    )
+    .value;
+    const end =
+    document
+    .getElementById(
+        "recurringEnd"
+    )
+    .value;
+    if(
+        !name ||
+        !start ||
+        !end
+    ){
+        alert(
+            "Please enter the name, start date, and end date."
+        );
+        return;
+    }
+    if(end<start){
+        alert(
+            "End date cannot be before the start date."
+        );
+        return;
+    }
+    const item={
+        id:Date.now(),
+        name,
+        type,
+        start,
+        end
+    };
+    if(type==="monthly"){
+        const day =
+        Number(
+            document
+            .getElementById(
+                "recurringDay"
+            )
+            .value
+        );
+        if(
+            !day ||
+            day<1 ||
+            day>31
+        ){
+            alert(
+                "Please enter a day from 1 to 31."
+            );
+            return;
+        }
+        item.day=day;
+    }
+    if(type==="weekly"){
+        item.weekday =
+        Number(
+            document
+            .getElementById(
+                "recurringWeekday"
+            )
+            .value
+        );
+    }
+    recurringDeadlines.push(
+        item
+    );
+    saveData();
+    document
+    .getElementById(
+        "recurringName"
+    )
+    .value="";
+    document
+    .getElementById(
+        "recurringStart"
+    )
+    .value="";
+    document
+    .getElementById(
+        "recurringEnd"
+    )
+    .value="";
+    document
+    .getElementById(
+        "recurringDay"
+    )
+    .value="";
+    renderAll();
+}
+function deleteRecurring(id){
+    if(
+        !confirm(
+            "Delete this recurring deadline?"
+        )
+    ) return;
+    recurringDeadlines =
+    recurringDeadlines.filter(
+        item =>
+        item.id!==id
+    );
+    saveData();
+    renderAll();
+}
+function recurringDescription(
+    item
+){
+    if(
+        item.type==="monthly"
+    ){
+        return `
+            Every month on the
+            ${ordinal(item.day)}
+        `;
+    }
+    if(
+        item.type==="weekly"
+    ){
+        const names=[
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ];
+        return `
+            Every ${names[
+                item.weekday
+            ]}
+        `;
+    }
+    if(
+        item.type==="yearly"
+    ){
+        return "Every year";
+    }
+    return "";
+}
+function renderRecurring(){
+    const list =
+    document.getElementById(
+        "recurringList"
+    );
+    if(
+        !recurringDeadlines.length
+    ){
+        list.innerHTML=`
+            <div class="empty">
+                No recurring deadlines yet 🌸
+            </div>
+        `;
+        return;
+    }
+    list.innerHTML =
+    recurringDeadlines
+    .map(item=>`
+        <div class="recurring-card">
+            <div class="recurring-title">
+                🔁
+                ${escapeHTML(
+                    item.name
+                )}
+            </div>
+            <div class="recurring-info">
+                ${recurringDescription(
+                    item
+                )}
+                <br>
+                From
+                <strong>
+                    ${formatDate(
+                        item.start
+                    )}
+                </strong>
+                to
+                <strong>
+                    ${formatDate(
+                        item.end
+                    )}
+                </strong>
+            </div>
+            <span class="badge">
+                AUTOMATIC CALENDAR
+            </span>
+            <br><br>
+            <button
+                class="delete-btn"
+                onclick="
+                    deleteRecurring(
+                        ${item.id}
+                    )
+                ">
+                Delete Recurring Deadline
+            </button>
+        </div>
+    `)
+    .join("");
+}
+/* =====================================================
+   CHARTS
+===================================================== */
+function renderSavingsChart(
+    elementId
+){
+    const element =
+    document.getElementById(
+        elementId
+    );
+    if(!goals.length){
+        element.innerHTML=`
+            <div class="empty">
+                No savings data yet 🌸
+            </div>
+        `;
+        return;
+    }
+    const max =
+    Math.max(
+        ...goals.map(
+            goal =>
+            Math.max(
+                goal.target,
+                getGoalSaved(goal)
+            )
+        ),
+        1
+    );
+    element.innerHTML =
+    goals.map(goal=>{
+        const saved =
+        getGoalSaved(goal);
+        const height =
+        Math.max(
+            saved/max*170,
+            4
+        );
+        return `
+            <div class="bar-wrapper">
+                <div class="bar-value">
+                    ${formatMoney(saved)}
+                </div>
+                <div
+                    class="bar"
+                    style="
+                        height:${height}px
+                    ">
+                </div>
+                <div class="bar-label">
+                    ${escapeHTML(
+                        goal.name
+                    )}
+                </div>
+            </div>
+        `;
+    })
+    .join("");
+}
+function renderExpenseChart(
+    elementId
+){
+    const element =
+    document.getElementById(
+        elementId
+    );
+    if(!expenses.length){
+        element.innerHTML=`
+            <div class="empty">
+                No expense data yet 🌸
+            </div>
+        `;
+        return;
+    }
+    const recent =
+    expenses.slice(-8);
+    const max =
+    Math.max(
+        ...recent.map(
+            item =>
+            Number(
+                item.amount
+            )
+        ),
+        1
+    );
+    element.innerHTML =
+    recent.map(item=>{
+        const amount =
+        Number(
+            item.amount
+        );
+        const height =
+        Math.max(
+            amount/max*170,
+            4
+        );
+        return `
+            <div class="bar-wrapper">
+                <div class="bar-value">
+                    ${formatMoney(amount)}
+                </div>
+                <div
+                    class="
+                        bar
+                        expense-bar
+                    "
+                    style="
+                        height:${height}px
+                    ">
+                </div>
+                <div class="bar-label">
+                    ${escapeHTML(
+                        item.name
+                    )}
+                </div>
+            </div>
+        `;
+    })
+    .join("");
+}
+/* =====================================================
+   DASHBOARD
+===================================================== */
+function updateDashboard(){
+    const saved =
+    goals.reduce(
+        (
+            sum,
+            goal
+        ) =>
+        sum+
+        getGoalSaved(goal),
+        0
+    );
+    const expenseTotal =
+    expenses.reduce(
+        (
+            sum,
+            item
+        ) =>
+        sum+
+        Number(
+            item.amount
+        ),
+        0
+    );
+    document.getElementById(
+        "dashSavings"
+    ).innerText =
+    formatMoney(saved);
+    document.getElementById(
+        "dashExpenses"
+    ).innerText =
+    formatMoney(
+        expenseTotal
+    );
+    document.getElementById(
+        "dashNotes"
+    ).innerText =
+    notes.length;
+    document.getElementById(
+        "dashDeadlines"
+    ).innerText =
+    deadlines.length+
+    recurringDeadlines.length;
+}
+/* =====================================================
+   SAVE DATA
+===================================================== */
+function saveData(){
+    localStorage.setItem(
+        "myNotesV3",
+        JSON.stringify(notes)
+    );
+    localStorage.setItem(
+        "myExpensesV3",
+        JSON.stringify(expenses)
+    );
+    localStorage.setItem(
+        "myDeadlinesV3",
+        JSON.stringify(deadlines)
+    );
+    localStorage.setItem(
+        "myRecurringV3",
+        JSON.stringify(
+            recurringDeadlines
+        )
+    );
+    localStorage.setItem(
+        "myGoalsV3",
+        JSON.stringify(goals)
+    );
+}
+/* =====================================================
+   RENDER ALL
+===================================================== */
+function renderAll(){
+    renderCalendar();
+    renderNotes();
+    renderGoals();
+    renderExpenses();
+    renderDeadlines();
+    renderRecurring();
+    updateDashboard();
+    renderSavingsChart(
+        "savingsChart"
+    );
+    renderSavingsChart(
+        "savingsChartPage"
+    );
+    renderExpenseChart(
+        "expenseChart"
+    );
+    renderExpenseChart(
+        "expenseChartPage"
+    );
+}
+/* =====================================================
+   HELPERS
+===================================================== */
+function getTodayString(){
+    const today =
+    new Date();
+    return makeDateString(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+    );
+}
+function makeDateString(
+    year,
+    month,
+    day
+){
+    return (
+        year+
+        "-" +
+        String(
+            month+1
+        ).padStart(2,"0")+
+        "-" +
+        String(day)
+        .padStart(2,"0")
+    );
+}
+function formatDate(
+    date
+){
+    if(!date)
+        return "No date";
+    const parts =
+    date.split("-");
+    if(
+        parts.length!==3
+    )
+        return date;
+    return new Date(
+        Number(parts[0]),
+        Number(parts[1])-1,
+        Number(parts[2])
+    ).toLocaleDateString(
+        "en-US",
+        {
+            month:"short",
+            day:"numeric",
+            year:"numeric"
+        }
+    );
+}
+function formatMoney(
+    amount
+){
+    return (
+        "₱"+
+        Number(
+            amount||0
+        ).toLocaleString(
+            "en-PH",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        )
+    );
+}
+function ordinal(
+    number
+){
+    const n =
+    Number(number);
+    if(
+        n%100>=11 &&
+        n%100<=13
+    ){
+        return n+"th";
+    }
+    switch(n%10){
+        case 1:
+            return n+"st";
+        case 2:
+            return n+"nd";
+        case 3:
+            return n+"rd";
+        default:
+            return n+"th";
+    }
+}
+function escapeHTML(
+    text
+){
+    return String(text)
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+}
+/* =====================================================
+   START
+===================================================== */
+renderAll();
+</script>
+</body>
+</html>
