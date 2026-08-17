@@ -1499,7 +1499,7 @@ let savingsTransactions = [];
 let expenses = [];
 let deadlines = [];
 let recurringDeadlines = [];
-
+let spaceNotes = [];
 let authMode = "login";
 
 let selectedMonthDate = new Date();
@@ -1741,6 +1741,26 @@ async function loadAllData(){
 
     recurringDeadlines =
         recurringResult.data || [];
+
+    const spaceNotesResult =
+        await db
+        .from("space_notes")
+        .select("*")
+        .eq("user_id",userId)
+        .order("created_at",{ascending:false});
+
+    spaceNotes =
+        spaceNotesResult.data || [];
+    
+    const spaceNotesResult =
+        await db
+        .from("space_notes")
+        .select("*")
+        .eq("user_id",userId)
+        .order("created_at",{ascending:false});
+
+    spaceNotes =
+        spaceNotesResult.data || [];
 }
 
 
@@ -3947,7 +3967,179 @@ function renderExpenseChart(){
         .join("");
 }
 
+/* =========================================================
+   MY SPACE NOTES
+========================================================= */
 
+async function addSpaceNote(){
+
+    const title =
+        document
+        .getElementById("spaceNoteTitle")
+        .value
+        .trim();
+
+    const content =
+        document
+        .getElementById("spaceNoteContent")
+        .value
+        .trim();
+
+    const category =
+        document
+        .getElementById("spaceNoteCategory")
+        .value;
+
+    if(!title){
+
+        alert("Please enter a title.");
+
+        return;
+    }
+
+    const result =
+        await db
+        .from("space_notes")
+        .insert({
+
+            user_id:currentUser.id,
+            title:title,
+            content:content,
+            category:category
+
+        })
+        .select()
+        .single();
+
+    if(result.error){
+
+        alert(result.error.message);
+
+        return;
+    }
+
+    spaceNotes.unshift(result.data);
+
+    document
+    .getElementById("spaceNoteTitle")
+    .value = "";
+
+    document
+    .getElementById("spaceNoteContent")
+    .value = "";
+
+    document
+    .getElementById("spaceNoteCategory")
+    .value = "General";
+
+    renderSpaceNotes();
+}
+
+
+async function deleteSpaceNote(id){
+
+    if(
+        !confirm(
+            "Delete this My Space note?"
+        )
+    ){
+
+        return;
+
+    }
+
+    const result =
+        await db
+        .from("space_notes")
+        .delete()
+        .eq("id",id)
+        .eq("user_id",currentUser.id);
+
+    if(result.error){
+
+        alert(result.error.message);
+
+        return;
+    }
+
+    spaceNotes =
+        spaceNotes.filter(
+            x=>x.id!==id
+        );
+
+    renderSpaceNotes();
+}
+
+
+function renderSpaceNotes(){
+
+    const list =
+        document.getElementById(
+            "spaceNotesList"
+        );
+
+    if(!list) return;
+
+    if(!spaceNotes.length){
+
+        list.innerHTML =
+            `<div class="empty">
+                Nothing here yet 🌸
+            </div>`;
+
+        return;
+    }
+
+    list.innerHTML =
+        spaceNotes
+        .map(x=>`
+
+            <div class="item">
+
+                <div class="item-info">
+
+                    <div class="item-title">
+                        ✨ ${escapeHTML(x.title)}
+                    </div>
+
+                    <div class="item-date">
+                        ${escapeHTML(x.category)}
+                    </div>
+
+                    ${
+                        x.content
+                        ?
+                        `
+                        <div
+                            style="
+                                margin-top:8px;
+                                line-height:1.5;
+                                white-space:pre-wrap;
+                            ">
+
+                            ${escapeHTML(x.content)}
+
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteSpaceNote(${x.id})">
+
+                    Delete
+
+                </button>
+
+            </div>
+
+        `)
+        .join("");
+}
 /* =========================================================
    RENDER ALL
 ========================================================= */
@@ -3981,6 +4173,8 @@ function renderAll(){
     renderDeadlines();
 
     renderRecurring();
+
+    renderSpaceNotes();
 
     renderMonthlyProgress();
 
