@@ -8,6 +8,148 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
+/* ================= MINIMALIST DAILY TRACKERS ================= */
+
+.tracker-date-bar{
+    max-width:700px;
+    margin:0 auto 20px;
+    padding:14px 18px;
+    background:#ffffff;
+    border:1px solid #e8e8e8;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    text-align:center;
+}
+
+.tracker-date-bar strong{
+    display:block;
+    font-size:15px;
+    color:#333;
+}
+
+.tracker-date-bar span{
+    display:block;
+    margin-top:3px;
+    font-size:12px;
+    color:#999;
+}
+
+.tracker-nav-btn{
+    border:1px solid #e5e5e5;
+    background:#fafafa;
+    color:#555;
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    font-size:20px;
+}
+
+.tracker-grid{
+    max-width:700px;
+    margin:auto;
+    display:grid;
+    gap:12px;
+}
+
+.tracker-card{
+    background:#fff;
+    border:1px solid #e8e8e8;
+    border-radius:18px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.tracker-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:#f7f7f7;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    flex-shrink:0;
+}
+
+.tracker-info{
+    flex:1;
+    min-width:0;
+}
+
+.tracker-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.tracker-top h3{
+    font-size:15px;
+    font-weight:700;
+    color:#333;
+}
+
+.tracker-top p{
+    margin-top:4px;
+    font-size:12px;
+    color:#999;
+}
+
+.tracker-add{
+    border:none;
+    background:#333;
+    color:white;
+    min-width:45px;
+    height:34px;
+    padding:0 12px;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.tracker-add:hover{
+    opacity:.8;
+}
+
+.tracker-progress{
+    height:7px;
+    background:#eeeeee;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:12px;
+}
+
+.tracker-progress-fill{
+    height:100%;
+    width:0%;
+    background:#555;
+    border-radius:20px;
+    transition:.3s ease;
+}
+
+.tracker-reset-area{
+    max-width:700px;
+    margin:15px auto 0;
+    text-align:right;
+}
+
+.tracker-reset{
+    border:none;
+    background:none;
+    color:#999;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.tracker-reset:hover{
+    color:#555;
+}
+    
 *{
     box-sizing:border-box;
     margin:0;
@@ -16,8 +158,8 @@
 }
 
 body{
-    background:#fff9f6;
-    color:#514143;
+    background:#f7f7f5;
+    color:#333333;
 }
 
 button{
@@ -26,9 +168,10 @@ button{
 
 header{
     text-align:center;
-    background:linear-gradient(135deg,#ffd5e6,#fff0a8);
+    background:#ffffff;
     padding:30px 20px;
-    border-radius:0 0 30px 30px;
+    border-bottom:1px solid #eeeeee;
+}
 }
 
 header h1{
@@ -524,6 +667,83 @@ textarea{
     border-radius:17px;
     margin-top:12px;
 }
+    /* ================= DAILY TRACKERS ================= */
+
+.tracker-date-header{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.tracker-date-header strong{
+    font-size:17px;
+}
+
+.tracker-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    background:#ffffff;
+    border:1px solid #eeeeee;
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:12px;
+}
+
+.tracker-icon{
+    width:42px;
+    height:42px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f7f7f7;
+    border-radius:12px;
+    font-size:21px;
+    flex-shrink:0;
+}
+
+.tracker-info{
+    flex:1;
+    min-width:0;
+}
+
+.tracker-info h3{
+    font-size:16px;
+    margin-bottom:4px;
+    font-weight:700;
+}
+
+.tracker-info p{
+    font-size:12px;
+    opacity:.6;
+    margin-bottom:8px;
+}
+
+.tracker-progress{
+    width:100%;
+    height:7px;
+    background:#eeeeee;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.tracker-progress-fill{
+    height:100%;
+    width:0%;
+    background:#555555;
+    border-radius:20px;
+    transition:.3s ease;
+}
+
+.tracker-card .secondary-btn{
+    flex-shrink:0;
+    background:#f3f3f3;
+    color:#333333;
+    border:1px solid #e5e5e5;
+}
 
 .empty{
     text-align:center;
@@ -644,6 +864,22 @@ footer{
     .bar-wrapper{
         min-width:42px;
     }
+
+        .tracker-card{
+        gap:10px;
+        padding:13px;
+    }
+
+    .tracker-card .secondary-btn{
+        padding:8px 10px;
+        font-size:11px;
+    }
+
+    .tracker-icon{
+        width:36px;
+        height:36px;
+        font-size:18px;
+    }
 }
 </style>
 </head>
@@ -721,38 +957,34 @@ footer{
 </header>
 
 <nav>
-
-    <button
-        class="active"
-        onclick="showPage('dashboard',this)">
+    <button class="active" onclick="showPage('dashboard',this)">
         🏠 Home
     </button>
 
-    <button
-        onclick="showPage('notes',this)">
+    <button onclick="showPage('notes',this)">
         📝 Notes
     </button>
 
-    <button
-        onclick="showPage('savings',this)">
+    <button onclick="showPage('trackers',this)">
+        📈 Trackers
+    </button>
+
+    <button onclick="showPage('savings',this)">
         💰 Savings
     </button>
 
-    <button
-        onclick="showPage('expenses',this)">
+    <button onclick="showPage('expenses',this)">
         💸 Expenses
     </button>
 
-    <button
-        onclick="showPage('deadlines',this)">
+    <button onclick="showPage('deadlines',this)">
         📅 Deadlines
     </button>
 
-    <button
-        onclick="showPage('myspace',this)">
+    <button onclick="showPage('myspace',this)">
         ✨ My Space
     </button>
-
+    
 </nav>
 
 <main>
@@ -1211,7 +1443,7 @@ footer{
     </div>
 
 </section>
-
+    
     <!-- ================= MY SPACE ================= -->
 
 <section
@@ -1287,13 +1519,54 @@ footer{
 
     </div>
 
+</section>
+
+    <!-- ================= DAILY TRACKERS ================= -->
+
+<section
+    id="trackers"
+    class="page">
+
+    <div class="section-title">
+
+        <h2>📊 Daily Trackers</h2>
+
+        <p>
+            Keep track of the little habits that matter. 🌿
+        </p>
+
+    </div>
+
     <div class="panel">
 
-        <h3>💧☕🍽️💻 Daily Trackers</h3>
+        <div class="tracker-date-header">
 
-        <p style="text-align:center;opacity:.6;margin-bottom:18px;">
-            Keep track of the little habits that matter. 🌷
-        </p>
+            <button
+                class="secondary-btn"
+                onclick="changeTrackerDate(-1)">
+                ‹
+            </button>
+
+            <div>
+                <strong id="trackerDateTitle">
+                    Today
+                </strong>
+
+                <div
+                    id="trackerDateText"
+                    style="font-size:12px;opacity:.6;margin-top:3px;">
+                </div>
+            </div>
+
+            <button
+                class="secondary-btn"
+                onclick="changeTrackerDate(1)">
+                ›
+            </button>
+
+        </div>
+
+        <!-- WATER -->
 
         <div class="tracker-card">
 
@@ -1330,10 +1603,14 @@ footer{
 
         </div>
 
+
+        <!-- COFFEE -->
+
         <div class="tracker-card">
 
             <div class="tracker-icon">
                 ☕
+
             </div>
 
             <div class="tracker-info">
@@ -1364,6 +1641,9 @@ footer{
             </button>
 
         </div>
+
+
+        <!-- DIET -->
 
         <div class="tracker-card">
 
@@ -1399,6 +1679,9 @@ footer{
             </button>
 
         </div>
+
+
+        <!-- CODING / STUDY -->
 
         <div class="tracker-card">
 
@@ -1437,18 +1720,12 @@ footer{
 
     </div>
 
+
+    <!-- TRACKER HISTORY -->
+
     <div class="panel">
 
         <h3>📅 Tracker History</h3>
-
-        <div class="form">
-
-            <input
-                id="trackerDate"
-                type="date"
-                onchange="renderTrackers()">
-
-        </div>
 
         <div id="trackerHistory"></div>
 
@@ -2326,6 +2603,449 @@ function renderDayDetails(){
         html;
 }
 
+    /* =========================================================
+   DAILY TRACKERS
+========================================================= */
+
+let trackerDate = getTodayString();
+
+
+/* GET TRACKER FOR SELECTED DATE */
+
+async function getTracker(type, date = trackerDate){
+
+    if(!currentUser) return null;
+
+    const result = await db
+        .from("daily_trackers")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .eq("tracker_type", type)
+        .eq("date", date)
+        .maybeSingle();
+
+    if(result.error){
+        console.error("Tracker load error:", result.error);
+        return null;
+    }
+
+    return result.data;
+}
+
+
+/* SAVE / UPDATE TRACKER */
+
+async function saveTracker(type, value, target, status = "", note = ""){
+
+    if(!currentUser) return;
+
+    const existing = await getTracker(type);
+
+    if(existing){
+
+        const result = await db
+            .from("daily_trackers")
+            .update({
+                value: value,
+                target: target,
+                status: status,
+                note: note
+            })
+            .eq("id", existing.id)
+            .eq("user_id", currentUser.id);
+
+        if(result.error){
+            console.error("Tracker update error:", result.error);
+        }
+
+    }else{
+
+        const result = await db
+            .from("daily_trackers")
+            .insert({
+                user_id: currentUser.id,
+                tracker_type: type,
+                value: value,
+                target: target,
+                date: trackerDate,
+                status: status,
+                note: note
+            });
+
+        if(result.error){
+            console.error("Tracker insert error:", result.error);
+        }
+    }
+
+    await renderTrackers();
+}
+
+
+/* WATER */
+
+async function addWater(){
+
+    const existing = await getTracker("water");
+
+    const currentValue =
+        existing ? Number(existing.value) : 0;
+
+    const newValue =
+        Math.min(currentValue + 1, 8);
+
+    await saveTracker(
+        "water",
+        newValue,
+        8,
+        newValue >= 8 ? "completed" : "in progress"
+    );
+}
+
+
+/* COFFEE */
+
+async function addCoffee(){
+
+    const existing = await getTracker("coffee");
+
+    const currentValue =
+        existing ? Number(existing.value) : 0;
+
+    const newValue =
+        Math.min(currentValue + 1, 2);
+
+    await saveTracker(
+        "coffee",
+        newValue,
+        2,
+        newValue >= 2 ? "completed" : "in progress"
+    );
+}
+
+
+/* DIET */
+
+async function toggleDiet(){
+
+    const existing = await getTracker("diet");
+
+    const currentValue =
+        existing ? Number(existing.value) : 0;
+
+    const newValue =
+        currentValue === 1 ? 0 : 1;
+
+    await saveTracker(
+        "diet",
+        newValue,
+        1,
+        newValue === 1 ? "completed" : "not tracked"
+    );
+}
+
+
+/* CODING / STUDY */
+
+async function addCoding(){
+
+    const existing = await getTracker("coding");
+
+    const currentValue =
+        existing ? Number(existing.value) : 0;
+
+    const newValue =
+        Math.min(currentValue + 15, 60);
+
+    await saveTracker(
+        "coding",
+        newValue,
+        60,
+        newValue >= 60 ? "completed" : "in progress"
+    );
+}
+
+
+/* RENDER TRACKERS */
+
+async function renderTrackers(){
+
+    const water =
+        await getTracker("water");
+
+    const coffee =
+        await getTracker("coffee");
+
+    const diet =
+        await getTracker("diet");
+
+    const coding =
+        await getTracker("coding");
+
+
+    /* WATER */
+
+    const waterValue =
+        water ? Number(water.value) : 0;
+
+    document.getElementById(
+        "waterSummary"
+    ).innerText =
+        `${waterValue} / 8 glasses`;
+
+    document.getElementById(
+        "waterProgress"
+    ).style.width =
+        `${Math.min(waterValue / 8 * 100, 100)}%`;
+
+
+    /* COFFEE */
+
+    const coffeeValue =
+        coffee ? Number(coffee.value) : 0;
+
+    document.getElementById(
+        "coffeeSummary"
+    ).innerText =
+        `${coffeeValue} / 2 cups`;
+
+    document.getElementById(
+        "coffeeProgress"
+    ).style.width =
+        `${Math.min(coffeeValue / 2 * 100, 100)}%`;
+
+
+    /* DIET */
+
+    const dietValue =
+        diet ? Number(diet.value) : 0;
+
+    document.getElementById(
+        "dietSummary"
+    ).innerText =
+        dietValue === 1
+        ? "On track today"
+        : "Not tracked today";
+
+    document.getElementById(
+        "dietProgress"
+    ).style.width =
+        dietValue === 1 ? "100%" : "0%";
+
+
+    /* CODING */
+
+    const codingValue =
+        coding ? Number(coding.value) : 0;
+
+    document.getElementById(
+        "codingSummary"
+    ).innerText =
+        `${codingValue} / 60 minutes`;
+
+    document.getElementById(
+        "codingProgress"
+    ).style.width =
+        `${Math.min(codingValue / 60 * 100, 100)}%`;
+
+
+    /* DATE */
+
+    const title =
+        document.getElementById(
+            "trackerDateTitle"
+        );
+
+    if(title){
+
+        title.innerText =
+            trackerDate === getTodayString()
+            ? "Today"
+            : formatDate(trackerDate);
+
+    }
+
+
+    const dateText =
+        document.getElementById(
+            "trackerDateText"
+        );
+
+    if(dateText){
+
+        dateText.innerText =
+            formatDate(trackerDate);
+
+    }
+
+
+    await renderTrackerHistory();
+}
+
+
+/* CHANGE TRACKER DATE */
+
+async function changeTrackerDate(amount){
+
+    const parts =
+        trackerDate.split("-");
+
+    const date =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1])-1,
+            Number(parts[2])
+        );
+
+    date.setDate(
+        date.getDate() + amount
+    );
+
+    trackerDate =
+        makeDateString(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
+        );
+
+    await renderTrackers();
+}
+
+
+/* RESET CURRENT DAY */
+
+async function resetTrackers(){
+
+    if(!currentUser) return;
+
+    const confirmed =
+        confirm(
+            "Reset all trackers for this day?"
+        );
+
+    if(!confirmed) return;
+
+    const result =
+        await db
+        .from("daily_trackers")
+        .delete()
+        .eq("user_id", currentUser.id)
+        .eq("date", trackerDate);
+
+    if(result.error){
+
+        console.error(
+            "Tracker reset error:",
+            result.error
+        );
+
+        return;
+    }
+
+    await renderTrackers();
+}
+
+
+/* TRACKER HISTORY */
+
+async function renderTrackerHistory(){
+
+    const container =
+        document.getElementById(
+            "trackerHistory"
+        );
+
+    if(!container || !currentUser) return;
+
+    const result =
+        await db
+        .from("daily_trackers")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("date", {ascending:false});
+
+    if(result.error){
+
+        console.error(
+            "Tracker history error:",
+            result.error
+        );
+
+        return;
+    }
+
+    const data =
+        result.data || [];
+
+    if(!data.length){
+
+        container.innerHTML =
+            `<div class="empty">
+                No tracker history yet 🌸
+            </div>`;
+
+        return;
+    }
+
+
+    const grouped = {};
+
+    data.forEach(item => {
+
+        if(!grouped[item.date]){
+            grouped[item.date] = [];
+        }
+
+        grouped[item.date].push(item);
+
+    });
+
+
+    let html = "";
+
+    Object.keys(grouped)
+        .forEach(date => {
+
+            html += `
+                <div class="detail-item">
+                    <strong>
+                        📅 ${formatDate(date)}
+                    </strong>
+                    <br>
+            `;
+
+            grouped[date].forEach(item => {
+
+                let label = item.tracker_type;
+
+                if(label === "water")
+                    label = "💧 Water";
+
+                if(label === "coffee")
+                    label = "☕ Coffee";
+
+                if(label === "diet")
+                    label = "🍽️ Diet";
+
+                if(label === "coding")
+                    label = "💻 Coding / Study";
+
+                html += `
+                    <div style="margin-top:6px;">
+                        ${label}: ${item.value}/${item.target}
+                    </div>
+                `;
+
+            });
+
+            html += `
+                </div>
+            `;
+
+        });
+
+
+    container.innerHTML = html;
+}
 
 /* =========================================================
    NOTES
@@ -4166,6 +4886,8 @@ function renderAll(){
     renderRecurring();
 
     renderSpaceNotes();
+
+    renderTrackers();
 
     renderMonthlyProgress();
 
