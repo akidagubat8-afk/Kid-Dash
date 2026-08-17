@@ -748,6 +748,11 @@ footer{
         📅 Deadlines
     </button>
 
+    <button
+        onclick="showPage('myspace',this)">
+        ✨ My Space
+    </button>
+
 </nav>
 
 <main>
@@ -1207,6 +1212,250 @@ footer{
 
 </section>
 
+    <!-- ================= MY SPACE ================= -->
+
+<section
+    id="myspace"
+    class="page">
+
+    <div class="section-title">
+
+        <h2>✨ My Space</h2>
+
+        <p>
+            Little things I want to remember, learn, and track. 💗
+        </p>
+
+    </div>
+
+    <div class="panel">
+
+        <h3>💭 Random Notes & Things I Want To Do</h3>
+
+        <div class="form">
+
+            <input
+                id="spaceNoteTitle"
+                placeholder="What do you want to remember?">
+
+            <textarea
+                id="spaceNoteContent"
+                placeholder="Add some details..."></textarea>
+
+            <select id="spaceNoteCategory">
+
+                <option value="General">
+                    🌸 General
+                </option>
+
+                <option value="Learning">
+                    📚 Learning
+                </option>
+
+                <option value="Coding">
+                    💻 Coding
+                </option>
+
+                <option value="Ideas">
+                    💡 Ideas
+                </option>
+
+                <option value="Personal">
+                    💗 Personal
+                </option>
+
+                <option value="Goals">
+                    🎯 Goals
+                </option>
+
+            </select>
+
+            <button
+                class="primary-btn"
+                onclick="addSpaceNote()">
+
+                + Add To My Space
+
+            </button>
+
+        </div>
+
+        <div
+            id="spaceNotesList"
+            class="list">
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <h3>💧☕🍽️💻 Daily Trackers</h3>
+
+        <p style="text-align:center;opacity:.6;margin-bottom:18px;">
+            Keep track of the little habits that matter. 🌷
+        </p>
+
+        <div class="tracker-card">
+
+            <div class="tracker-icon">
+                💧
+            </div>
+
+            <div class="tracker-info">
+
+                <h3>Water</h3>
+
+                <p id="waterSummary">
+                    0 / 8 glasses
+                </p>
+
+                <div class="tracker-progress">
+
+                    <div
+                        id="waterProgress"
+                        class="tracker-progress-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                class="secondary-btn"
+                onclick="addWater()">
+
+                +1 Glass
+
+            </button>
+
+        </div>
+
+        <div class="tracker-card">
+
+            <div class="tracker-icon">
+                ☕
+            </div>
+
+            <div class="tracker-info">
+
+                <h3>Coffee</h3>
+
+                <p id="coffeeSummary">
+                    0 / 2 cups
+                </p>
+
+                <div class="tracker-progress">
+
+                    <div
+                        id="coffeeProgress"
+                        class="tracker-progress-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                class="secondary-btn"
+                onclick="addCoffee()">
+
+                +1 Cup
+
+            </button>
+
+        </div>
+
+        <div class="tracker-card">
+
+            <div class="tracker-icon">
+                🍽️
+            </div>
+
+            <div class="tracker-info">
+
+                <h3>Diet</h3>
+
+                <p id="dietSummary">
+                    Not tracked today
+                </p>
+
+                <div class="tracker-progress">
+
+                    <div
+                        id="dietProgress"
+                        class="tracker-progress-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                class="secondary-btn"
+                onclick="toggleDiet()">
+
+                ✓ On Track
+
+            </button>
+
+        </div>
+
+        <div class="tracker-card">
+
+            <div class="tracker-icon">
+                💻
+            </div>
+
+            <div class="tracker-info">
+
+                <h3>Coding / Study</h3>
+
+                <p id="codingSummary">
+                    0 / 60 minutes
+                </p>
+
+                <div class="tracker-progress">
+
+                    <div
+                        id="codingProgress"
+                        class="tracker-progress-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                class="secondary-btn"
+                onclick="addCoding()">
+
+                + Minutes
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <h3>📅 Tracker History</h3>
+
+        <div class="form">
+
+            <input
+                id="trackerDate"
+                type="date"
+                onchange="renderTrackers()">
+
+        </div>
+
+        <div id="trackerHistory"></div>
+
+    </div>
+
+</section>
+    
 </main>
 
 <footer>
