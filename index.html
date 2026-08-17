@@ -1752,15 +1752,6 @@ async function loadAllData(){
     spaceNotes =
         spaceNotesResult.data || [];
     
-    const spaceNotesResult =
-        await db
-        .from("space_notes")
-        .select("*")
-        .eq("user_id",userId)
-        .order("created_at",{ascending:false});
-
-    spaceNotes =
-        spaceNotesResult.data || [];
 }
 
 
